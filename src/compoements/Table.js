@@ -37,23 +37,26 @@ function Table ({tableName,data,dataApi}){
         const trs = []
         data.forEach((item) =>{
             const tds=[]
-            tds.push(<td key="delete"><button  onClick= {()=>deleteClick(item.id)}>刪除</button></td>)
+            tds.push(<td align='center' key="delete"><button  onClick= {()=>deleteClick(item.id)}>刪除</button></td>)
             Object.keys(item).forEach((key) =>{
-                tds.push(<td key={key} >{item[key]}</td>)
+                if(Number.isInteger(item[key])!==true && typeof(item[key])==="number")
+                    tds.push(<td align='center' key={key} >{parseFloat(item[key]).toFixed(2)}</td>)
+                else
+                    tds.push(<td align='center' key={key} >{item[key]}</td>)
             })
 
-            tds.push(<td key="edit"><button  onClick={()=>editClick(item.id)}>修改comment</button></td>)
+            tds.push(<td align='center' key="edit"><button  onClick={()=>editClick(item.id)}>修改comment</button></td>)
             if (item.path!==null)
-                tds.push(<td key="download"><button onClick={()=>downloadClick(item.path)}  >下載</button></td>)
+                tds.push(<td align='center' key="download"><button onClick={()=>downloadClick(item.path)}  >下載</button></td>)
             else
-                tds.push(<td key="download"></td>)
+                tds.push(<td align='center' key="download">wait</td>)
             trs.push(<tr key={v4()}>{tds}</tr>)
         })
        return trs
     }
     return(
         
-        <table align="center" border="1" cellPadding="8" cellSpacing="3" >
+        <table  align="center" border="1" cellPadding="5" cellSpacing="3" >
             <tbody>
                 <tr>
                     <th key="deleteText">刪除</th>
