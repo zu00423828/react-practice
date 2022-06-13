@@ -1,5 +1,6 @@
 import {deleteData,editData} from '../global/constants'
 import {v4} from "uuid"
+import {DownloadApi} from '../global/constants'
 function Table ({tableName,data,dataApi}){
 
     const createTh=() =>{
@@ -14,8 +15,8 @@ function Table ({tableName,data,dataApi}){
     const deleteClick=(id)=>{
         deleteData(dataApi,id)
     }
-    const editClick=(id,comment)=>{
-        comment = window.prompt("請輸入要修改的comment")
+    const editClick=(id)=>{
+        const comment = window.prompt("請輸入要修改的comment")
         if (comment != null)
         {
             const data={}
@@ -27,6 +28,11 @@ function Table ({tableName,data,dataApi}){
         }
         console.log(id)
     }
+    const downloadClick=(path)=>{
+        const downloadUrl=`${DownloadApi}/${path}`
+        console.log(downloadUrl)
+        window.open(downloadUrl,"_blank")
+    }
     const createTd = ()=>{
         const trs = []
         data.forEach((item) =>{
@@ -36,7 +42,11 @@ function Table ({tableName,data,dataApi}){
                 tds.push(<td key={key} >{item[key]}</td>)
             })
 
-            tds.push(<td key="edit"><button  onClick={()=>editClick(item.id,null)}>修改comment</button></td>)
+            tds.push(<td key="edit"><button  onClick={()=>editClick(item.id)}>修改comment</button></td>)
+            if (item.path!==null)
+                tds.push(<td key="download"><button onClick={()=>downloadClick(item.path)}  >下載</button></td>)
+            else
+                tds.push(<td key="download"></td>)
             trs.push(<tr key={v4()}>{tds}</tr>)
         })
        return trs
@@ -49,6 +59,7 @@ function Table ({tableName,data,dataApi}){
                     <th key="deleteText">刪除</th>
                     {createTh()}
                     <th key="editText">修改comment</th>
+                    <th key="downloadText">下載</th>
                 </tr>
                 {createTd()}
             </tbody>
