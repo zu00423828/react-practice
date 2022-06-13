@@ -1,8 +1,8 @@
 import {useState,useEffect} from 'react' 
 import { SpinnerCircularFixed } from 'spinners-react';
-import {fileManagementAPI,ttsAPI} from '../../global/constants'
+import {fileManagementAPI,ttsListAPI,ttsAPI} from '../../global/constants'
 async function getLangVoice(setLangList,setVoiceList){
-    const res = await fetch(ttsAPI)
+    const res = await fetch(ttsListAPI)
     const data = await res.json()
     setLangList(data.lang)
     setVoiceList(data.voice)
@@ -16,6 +16,7 @@ function UploadFile(){
     const [transformText,setTransformText]=useState("")
     const [langValue,setLangValue] = useState("en-US")
     const [voiceValue,setVoiceValue] = useState("en-US-BrandonNeural")
+    const [audioBlob,setAudioBlob] = useState(new Blob())
     const [audioUrl,setAudioUrl] = useState("")
     const [tempblobname,setTempBlobName] = useState("")
     const [blobname,setBoloname] = useState("")
@@ -88,14 +89,16 @@ function UploadFile(){
     }
     async function sendText2Audio(){
         console.log(JSON.stringify({ "transform_text": transformText, "lang": langValue, "voice": voiceValue, "rate": rate }))
-        const res= await fetch(ttsAPI,{
-            method:"POST",
-            body : JSON.stringify({ "transform_text": transformText, "lang": langValue, "voice": voiceValue, "rate": rate }),
-            headers: {
-                'content-type': 'application/json'
-           }})
-        const audioblob = await res.blob()
-        setAudioUrl(URL.createObjectURL(audioblob))
+        const url = new URL(ttsAPI)
+        url.searchParams.append("transform_text", transformText)
+        url.searchParams.append("lang", langValue)
+        url.searchParams.append("voice", voiceValue)
+        url.searchParams.append("rate", rate)
+        
+        const res= await fetch(url.toString())
+        const blob = await res.blob()
+        setAudioBlob(blob)
+        setAudioUrl(URL.createObjectURL(blob))
         setAudioComment(`${langValue} ${voiceValue}`)
     }
     async function postData(){
@@ -105,6 +108,11 @@ function UploadFile(){
         fd.append("audio",audio)
         fd.append("video_comment",videoComment)
         fd.append("audio_comment",audioComment)
+        if (blobname!=="")
+        {
+            const file = new File([audioBlob],blobname)
+            fd.append("blobfile",file)
+        }
         console.log(video,typeof(video))
         console.log(audio,typeof(audio))
         console.log(videoComment)
@@ -116,6 +124,7 @@ function UploadFile(){
         const result = await res.text()
         window.alert(result)
         setShowSpinner(false)
+        window.location.reload()
     }
 
     return(

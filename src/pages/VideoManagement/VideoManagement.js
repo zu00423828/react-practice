@@ -10,7 +10,7 @@ function VideoManagement(){
     return(
         <>
         <h1 align='center'>Video管理</h1>
-        <Table data={videoData} dataApi={videoAPI}/>
+        <Table tableName="video" data={videoData} dataApi={videoAPI}/>
         </>
     )
 }

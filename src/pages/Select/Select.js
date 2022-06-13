@@ -24,10 +24,10 @@ function Select(){
         getApiData(setOptions)
     },[])
     const videoChange = (e) =>{
-        setVideoId(e.target.id)
+        setVideoId(e.target.value)
     }
     const audioChange = (e) =>{
-        setAudioId(e.target.id)
+        console.log(e.target.value)
     }
     const fpsChange = (e) =>{
         setOutFps(e.target.value)
@@ -60,7 +60,6 @@ function Select(){
         setAudioId(data.audio[0].id)
     }
     async function postData(){
-        console.log(videoId,audioId,outFps,outCrf,skipSeconds)
         const res = await fetch(jobAPI,{
             method:"POST",
             headers:{

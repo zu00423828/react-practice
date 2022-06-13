@@ -22,16 +22,17 @@ export async function getData(api,setDataFun){
     const data =await res.json()
     setDataFun(data)
 }
-export async function editData(api,id,value){
+export async function editData(api,data){
+    console.log(data)
     const res=await fetch(api,{
         method:"PUT",
         headers:{
             'Content-type': 'application/json'
         },
-        body: JSON.stringify({"id":id,'video_comment':value})
+        body: data
     })
     const result= await res.json()
-    return result
+    return window.location.reload()
 }
 export async function deleteData(api,id){
     const res=await fetch(`${api}/${id}`,{
@@ -41,5 +42,5 @@ export async function deleteData(api,id){
         }
     })
     const result= await res.json()
-    return result
+    return window.location.reload()
 }

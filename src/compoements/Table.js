@@ -1,6 +1,6 @@
-import { useState,useEffect } from "react"
+import {deleteData,editData} from '../global/constants'
 import {v4} from "uuid"
-function Table ({data,dataApi}){
+function Table ({tableName,data,dataApi}){
 
     const createTh=() =>{
         const ths=[]
@@ -12,9 +12,19 @@ function Table ({data,dataApi}){
        return ths
     }
     const deleteClick=(id)=>{
-        console.log(id)
+        deleteData(dataApi,id)
     }
-    const editClick=(id)=>{
+    const editClick=(id,comment)=>{
+        comment = window.prompt("請輸入要修改的comment")
+        if (comment != null)
+        {
+            const data={}
+            data[`${tableName}_id`]=id
+            data[`${tableName}_comment`]=comment
+            const jsonData = JSON.stringify(data)
+            console.log(data)
+            editData(dataApi,jsonData)
+        }
         console.log(id)
     }
     const createTd = ()=>{
@@ -26,7 +36,7 @@ function Table ({data,dataApi}){
                 tds.push(<td key={key} >{item[key]}</td>)
             })
 
-            tds.push(<td key="edit"><button  onClick={()=>editClick(item.id)}>修改comment</button></td>)
+            tds.push(<td key="edit"><button  onClick={()=>editClick(item.id,null)}>修改comment</button></td>)
             trs.push(<tr key={v4()}>{tds}</tr>)
         })
        return trs
