@@ -27,7 +27,7 @@ function Select(){
         setVideoId(e.target.value)
     }
     const audioChange = (e) =>{
-        console.log(e.target.value)
+        setAudioId(e.target.value)
     }
     const fpsChange = (e) =>{
         setOutFps(e.target.value)
@@ -60,6 +60,8 @@ function Select(){
         setAudioId(data.audio[0].id)
     }
     async function postData(){
+        console.log(JSON.stringify({"video_id":videoId, "audio_id":audioId, out_fps:outFps,
+        "out_crf":outCrf, start_seconds:skipSeconds, "job_comment":comment}))
         const res = await fetch(jobAPI,{
             method:"POST",
             headers:{

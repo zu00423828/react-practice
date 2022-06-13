@@ -45,7 +45,7 @@ function Table ({tableName,data,dataApi}){
                     tds.push(<td align='center' key={key} >{item[key]}</td>)
             })
 
-            tds.push(<td align='center' key="edit"><button  onClick={()=>editClick(item.id)}>修改comment</button></td>)
+            tds.push(<td align='center' key="edit"><button  onClick={()=>editClick(item.id)}>修改</button></td>)
             if (item.path!==null)
                 tds.push(<td align='center' key="download"><button onClick={()=>downloadClick(item.path)}  >下載</button></td>)
             else
