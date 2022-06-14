@@ -40,6 +40,7 @@ function Select(){
     }
     const commentChange = (e)=>{
         setComment(e.target.value)
+        console.log(test)
     }
     const setOptions= (data) =>{
         console.log(data)

@@ -23,7 +23,7 @@ export async function getData(api,setDataFun){
     const data =await res.json()
     setDataFun(data)
 }
-export async function editData(api,data){
+export async function editData(api,data,setFun){
     console.log(data)
     const res=await fetch(api,{
         method:"PUT",
@@ -33,10 +33,10 @@ export async function editData(api,data){
         body: data
     })
     const result= await res.json()
-    console.log(result)
-    return window.location.reload()
+    setFun((prev)=> [...prev.filter(row=>row.id!==result.id),result])
+    // window.location.reload()
 }
-export async function deleteData(api,id){
+export async function deleteData(api,id,setFun){
     const res=await fetch(`${api}/${id}`,{
         method:"DELETE",
         headers:{
@@ -44,6 +44,8 @@ export async function deleteData(api,id){
         }
     })
     const result= await res.json()
-    console.log(result)
-    return window.location.reload()
+    // reduce(result)
+    setFun((prev)=> [...prev.filter(row=>row.id!==result.id)])
+    // return result
+    // window.location.reload()
 }

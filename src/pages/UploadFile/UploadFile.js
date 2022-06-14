@@ -24,6 +24,24 @@ function UploadFile(){
     const [videoComment,setVideoComment] =useState("")
     const [audioComment,setAudioComment] =useState("")
     const [showSpinnner,setShowSpinner]=useState(false)
+    const [videoInputKey,setVideoInputKey ]= useState(Math.random().toString(36))
+    const [audioInputKey,setAudioInputKey ]= useState(Math.random().toString(36))
+    const resetState=()=>{
+        setVideo(new Blob())
+        setAudio(new Blob())
+        setTransformText("")
+        setLangValue("en-US")
+        setVoiceValue("en-US-BrandonNeural")
+        setAudioBlob(new Blob())
+        setAudioUrl("")
+        setBoloname("")
+        setRate(0.9)
+        setVideoComment("")
+        setAudioComment("")
+        setShowSpinner(false)
+        setVideoInputKey(Math.random().toString(36))
+        setAudioInputKey(Math.random().toString(36))
+    }
     useEffect(()=>{
         getLangVoice(setLangList,setVoiceList)
     },[])
@@ -123,8 +141,7 @@ function UploadFile(){
         })
         const result = await res.text()
         window.alert(result)
-        setShowSpinner(false)
-        window.location.reload()
+        resetState()
     }
 
     return(
@@ -134,8 +151,8 @@ function UploadFile(){
         </div>
         <h1>&nbsp;Upload new File</h1>
         <form encType='multipart/form-data' >
-        <p>&emsp;影片：<input id="video" type="file" onChange={videoChange} /></p>
-        <p id="audio_text">&emsp;聲音：<input id="audio" type="file" onChange={audioChange}/></p>
+        <p>&emsp;影片：<input key={videoInputKey} id="video" type="file"  onChange={videoChange} /></p>
+        <p id="audio_text">&emsp;聲音：<input key={audioInputKey} id="audio" type="file"    onChange={audioChange}/></p>
         <p>&emsp;以下為文字轉語音 ：請選擇語言及聲音後試聽 ，若OK請輸入檔名按下確認檔名，最後按下上傳內容</p>
         <p>&emsp;可在文字輸入區塊使用SSML語法 進行文字轉語音，例如：停頓幾秒等等</p>
         <p>&emsp;{`注意！！輸入的文字內容不可使用符號<>&>，除了使用SSML語法`}</p>
@@ -158,6 +175,6 @@ function UploadFile(){
         <p>&emsp;<input type="button" defaultValue="上傳" onClick={postData} /></p>
         </form>
         </>
-)
+    )
 }
 export default UploadFile

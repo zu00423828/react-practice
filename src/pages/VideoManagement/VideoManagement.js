@@ -1,5 +1,4 @@
 import {useState,useEffect} from 'react'
-// import { JsonToTable } from 'react-json-to-table'
 import { videosAPI,videoAPI,getData } from '../../global/constants'
 import Table from '../../compoements/Table'
 function VideoManagement(){
@@ -10,7 +9,7 @@ function VideoManagement(){
     return(
         <>
         <h1 align='center'>Video管理</h1>
-        <Table tableName="video" data={videoData} dataApi={videoAPI}/>
+        <Table tableName="video"  dataApi={videoAPI} data={videoData} setData={setVideoData}/>
         </>
     )
 }
