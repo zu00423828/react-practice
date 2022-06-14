@@ -1,6 +1,6 @@
-const APIHost="http://localhost:5000"
-const APIRoot =`${APIHost}/api/v1`
-export const fileManagementAPI=`${APIRoot}/filemanagement`
+const APIHost = "http://localhost:5000"
+const APIRoot = `${APIHost}/api/v1`
+export const fileManagementAPI =`${APIRoot}/filemanagement`
 
 export const videosAPI = `${APIRoot}/videos`
 export const videoAPI = `${APIRoot}/video`
@@ -13,39 +13,35 @@ export const jobsAPI = `${APIRoot}/jobs`
 export const jobAPI = `${APIRoot}/job`
 
 export const ttsListAPI = `${APIRoot}/langlist`
-export const ttsAPI =`${APIRoot}/tts`
+export const ttsAPI = `${APIRoot}/tts`
 
-export const DownloadApi=`${APIHost}/download`
+export const DownloadApi = `${APIHost}/download`
 
 
-export async function getData(api,setDataFun){
+export const getData = async (api,setDataFun) => {
     const res = await fetch(api)
-    const data =await res.json()
+    const data = await res.json()
     setDataFun(data)
 }
-export async function editData(api,data,setFun){
+export const editData = async (api,data,setFun) => {
     console.log(data)
-    const res=await fetch(api,{
+    const res = await fetch(api, {
         method:"PUT",
         headers:{
             'Content-type': 'application/json'
         },
         body: data
     })
-    const result= await res.json()
-    setFun((prev)=> [...prev.filter(row=>row.id!==result.id),result])
-    // window.location.reload()
+    const result = await res.json()
+    setFun((prev)=> [...prev.filter(row => row.id !== result.id), result])
 }
-export async function deleteData(api,id,setFun){
-    const res=await fetch(`${api}/${id}`,{
+export  const deleteData = async (api,id,setFun)=>{
+    const res = await fetch(`${api}/${id}`,{
         method:"DELETE",
         headers:{
             'Content-type': 'application/json'
         }
     })
     const result= await res.json()
-    // reduce(result)
-    setFun((prev)=> [...prev.filter(row=>row.id!==result.id)])
-    // return result
-    // window.location.reload()
+    setFun((prev) => [...prev.filter(row => row.id !== result.id)])
 }
