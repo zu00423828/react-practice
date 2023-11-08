@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import {jobsAPI, jobAPI, getData} from '../../global/constants'
+import { jobsAPI, jobAPI, getData } from '../../global/common'
 import Table from '../../compoements/Table'
 const JobManagement = () => {
     const [jobData, setJobData] = useState([])
@@ -11,11 +11,11 @@ const JobManagement = () => {
             getData(jobsAPI, setJobData)
         }, 60000);
         return () => clearInterval(interval);
-      }, []);
-    return(
+    }, []);
+    return (
         <>
-        <h1 align='center'>Job管理</h1>
-        <Table tableName = "job" dataApi = {jobAPI} data = {jobData} setData = {setJobData} />
+            <h1 align='center'>Job管理</h1>
+            <Table tableName="job" dataApi={jobAPI} data={jobData} setData={setJobData} />
         </>
     )
 }
